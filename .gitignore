@@ -3,3 +3,5 @@
 ################################################################################
 
 /packages
+/ZookeeperViewer/bin/Debug
+/ZookeeperViewer/obj/Debug

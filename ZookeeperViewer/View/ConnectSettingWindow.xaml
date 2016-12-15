@@ -1,0 +1,69 @@
+﻿<Window
+    x:Class="ZookeeperViewer.View.ConnectSettingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="Connect Setting"
+    Width="320"
+    Height="240"
+    Icon="Image/Setting.png"
+    WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="5" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="Connection String:" />
+        <xctk:WatermarkTextBox
+            Grid.Row="1"
+            Grid.Column="2"
+            Text="{Binding Path=ConnectionString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap"
+            Watermark="192.168.1.100:2181,..." />
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Content="Timeout:" />
+        <TextBox
+            x:Name="txtTimeout"
+            Grid.Row="3"
+            Grid.Column="2"
+            Text="{Binding Path=Timeout, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Grid Grid.Row="5" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                x:Name="btnOK"
+                Grid.Column="0"
+                Click="btnOK_Click"
+                Command="{Binding Path=OK}"
+                Content="OK" />
+            <Button
+                x:Name="btnCancel"
+                Grid.Column="2"
+                Click="btnCancel_Click"
+                Content="Cancel" />
+        </Grid>
+    </Grid>
+</Window>

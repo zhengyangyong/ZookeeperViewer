@@ -1,0 +1,62 @@
+﻿<Window x:Class="ZookeeperViewer.View.AddNodeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="AddNodeWindow" Height="210" Width="300" WindowStartupLocation="CenterScreen" Icon="Image/Add.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Path:" Grid.Row="1" Grid.Column="1"/>
+        <TextBox x:Name="txtPath" Grid.Row="1" Grid.Column="2" Text="{Binding Path=Path,Mode=OneWay}" IsReadOnly="True"/>
+        
+        <Label Content="Node Name:" Grid.Row="3" Grid.Column="1"/>
+        <TextBox x:Name="txtNodeName" Grid.Row="3" Grid.Column="2" Text="{Binding Path=NodeName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <Label Content="ACL Mode:" Grid.Row="5" Grid.Column="1"/>
+        <ComboBox Grid.Row="5" Grid.Column="2" SelectedValue="{Binding Path=SelectedACLMode,Mode=TwoWay}">
+            <ComboBox.Items>
+                <sys:String>CREATOR_ALL_ACL</sys:String>
+                <sys:String>OPEN_ACL_UNSAFE</sys:String>
+                <sys:String>READ_ACL_UNSAFE</sys:String>
+            </ComboBox.Items>
+        </ComboBox>
+        <Label Content="Create Mode:" Grid.Row="7" Grid.Column="1"/>
+        <ComboBox Grid.Row="7" Grid.Column="2" SelectedValue="{Binding Path=SelectedCreateMode,Mode=TwoWay}">
+            <ComboBox.Items>
+                <sys:String>Ephemeral</sys:String>
+                <sys:String>EphemeralSequential</sys:String>
+                <sys:String>Persistent</sys:String>
+                <sys:String>PersistentSequential</sys:String>
+            </ComboBox.Items>
+        </ComboBox>
+        
+        <Grid Grid.Row="9" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnOK" Content="OK" Grid.Column="0" Click="btnOK_Click" Command="{Binding Path=OK}"/>
+            <Button x:Name="btnCancel" Content="Cancel" Grid.Column="2" Click="btnCancel_Click"/>
+        </Grid>
+    </Grid>
+</Window>

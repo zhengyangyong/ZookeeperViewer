@@ -1,0 +1,143 @@
+﻿<Window x:Class="ZookeeperViewer.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:extension="clr-namespace:ZookeeperViewer.Extension"
+        xmlns:model="clr-namespace:ZookeeperViewer.Model"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="ZookeeperViewer" Height="600" Width="800" WindowStartupLocation="CenterScreen" Icon="Image/Zoo.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0">
+            <Button ToolTip="Connect" Command="{Binding Path=Connect}">
+                <Button.Content>
+                    <Image Source="Image/Setting.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button ToolTip="Refresh" Command="{Binding Path=Refresh}">
+                <Button.Content>
+                    <Image Source="Image/Refresh.png"></Image>
+                </Button.Content>
+            </Button>
+            <Button ToolTip="Disconnect" Command="{Binding Path=Disconnect}">
+                <Button.Content>
+                    <Image Source="Image/Disconnect.png"></Image>
+                </Button.Content>
+            </Button>
+        </ToolBar>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TreeView x:Name="MainTree" Grid.Column="0" ItemsSource="{Binding Path=TreeViewDataContext}" ContextMenuOpening="MainTree_ContextMenuOpening"  extension:TreeViewSelectedItemExtension.TreeViewSelectedItem="{Binding Path=SelectedZookeeperTreeNodeModel,Mode=TwoWay}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type model:ZookeeperTreeNodeModel}" ItemsSource="{Binding Path=Childs}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}"></TextBlock>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="AddNode" Command="{Binding Path=AddNode}">
+                                <MenuItem.Icon>
+                                    <Image Source="SmallImage/Add.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="DeleteNode" Command="{Binding Path=DeleteNode}">
+                                <MenuItem.Icon>
+                                    <Image Source="SmallImage/Delete.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
+                <GridSplitter Width="4"/>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="{Binding Path=SelectedZookeeperTreeNodeModel.QueryPath}" FontSize="12" FontWeight="Bold"/>
+                    
+                    <ListView Grid.Row="1" ItemsSource="{Binding Path=ListViewDataContext}" SelectedValue="{Binding Path=SelectedZookeeperStatModel,Mode=TwoWay}" Grid.RowSpan="2">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Key}" Width="100"/>
+                                <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}" Width="250"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <GridSplitter ResizeDirection="Rows" Grid.ColumnSpan="2" Grid.Row="2" Width="Auto" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <ToolBar Grid.Row="0">
+                            <Button ToolTip="SaveModify" Command="{Binding Path=SaveModify}">
+                                <Button.Content>
+                                    <Image Source="Image/Save.png"></Image>
+                                </Button.Content>
+                            </Button>
+                            <Label Content="Encoding:" VerticalAlignment="Center"/>
+                            <ComboBox Width="120" SelectedValue="{Binding Path=SelectedEncoding,Mode=TwoWay}">
+                                <ComboBox.Items>
+                                    <sys:String>HEX</sys:String>
+                                    <sys:String>ASCII</sys:String>
+                                    <sys:String>UTF8</sys:String>
+                                    <sys:String>Unicode</sys:String>
+                                    <sys:String>GB2312</sys:String>
+                                    <sys:String>GBK</sys:String>
+                                    <sys:String>BigEndianUnicode</sys:String>
+                                    <sys:String>UTF32</sys:String>
+                                    <sys:String>UTF7</sys:String>
+                                </ComboBox.Items>
+                            </ComboBox>
+                        </ToolBar>
+                        <TextBox Grid.Row="1" Text="{Binding Path=DataText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </Grid>
+
+
+            </Grid>
+            <GridSplitter ResizeDirection="Rows" Grid.ColumnSpan="2" Grid.Row="1" Width="Auto" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <ToolBar Grid.Row="0">
+                    <Button ToolTip="Clear" Command="{Binding Path=Clear}">
+                        <Button.Content>
+                            <Image Source="Image/Clear.png"></Image>
+                        </Button.Content>
+                    </Button>
+                    
+                </ToolBar>
+                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Logs}"/>
+            </Grid>
+        </Grid>
+
+        <StatusBar Grid.Row="2"/>
+
+    </Grid>
+</Window>
